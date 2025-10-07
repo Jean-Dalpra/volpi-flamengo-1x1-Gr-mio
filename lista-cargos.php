@@ -1,12 +1,12 @@
-<?php 
+<?php
 // include dos arquivox
 include_once './include/logado.php';
 include_once './include/conexao.php';
 include_once './include/header.php';
-
+ 
 ?>
   <main>
-
+ 
     <div class="container">
         <h1>Lista de Cargos</h1>
         <a href="./salvar-cargos.php" class="btn btn-add">Incluir</a>
@@ -26,7 +26,7 @@ include_once './include/header.php';
             ?>
             <?php
             while ($row = mysqli_fetch_assoc($resultado)) {
-            
+           
             echo "<tr>";
               echo "<td>" . $row["CargoID"] . "</td>";
               echo "<td>" . $row["Nome"] ."</td>";
@@ -40,10 +40,10 @@ include_once './include/header.php';
             ?>
           </tbody>
         </table>
-      </div> 
+      </div>
   </main>
-  
-  <?php 
+ 
+  <?php
   // include dos arquivox
   include_once './include/footer.php';
   ?>

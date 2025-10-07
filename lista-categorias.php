@@ -38,8 +38,9 @@ include_once './include/header.php';
               <td><?php echo $row['descricao'] ?></td>
  
               <td>
-                <a href="salvar-categorias.php?id=" class="btn btn-edit">Editar</a>
-                <a href="#" class="btn btn-delete">Excluir</a>
+        
+              <a href='salvar-categorias.php?id=". $row["CategoriaID"] . "' class='btn btn-edit'>Editar</a>
+              <a href='./action/categorias.php?id=" . $row["CategoriaID"] . "&acao=excluir' class='btn btn-delete'>Excluir</a>
               </td>
             </tr>
             <?php
