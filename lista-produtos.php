@@ -1,20 +1,15 @@
-<?php
-// include dos arquivox
+<?php 
+// include dos arquivos
 include_once './include/logado.php';
 include_once './include/conexao.php';
 include_once './include/header.php';
- 
-$sql = 'SELECT p.ProdutoID, p.Nome, p.Preco AS Preco, c.Nome AS Categoria
-        FROM produtos p
-        INNER JOIN categorias c ON p.CategoriaID = c.CategoriaID';
-$resultado = mysqli_query($conexao, $sql);
 ?>
- 
+
 <main>
- 
+
   <div class="container">
       <h1>Lista de Produtos</h1>
-      <a href="./salvar-produtos.php" class="btn btn-add">Incluir</a>
+      <a href="./salvar-produtos.php" class="btn btn-add">Incluir</a> 
       <table>
         <thead>
           <tr>
@@ -26,30 +21,31 @@ $resultado = mysqli_query($conexao, $sql);
           </tr>
         </thead>
         <tbody>
-           <?php
-            $sql = "SELECT CargoID, Nome, TetoSalarial FROM cargos;";
-            $resultado = mysqli_query($conexao, $sql);
-            ?>
-            <?php
-            while ($row = mysqli_fetch_assoc($resultado)) {
-           
-            echo "<tr>";
-              echo "<td>" . $row["CargoID"] . "</td>";
-              echo "<td>" . $row["Nome"] ."</td>";
-              echo "<td>" . $row["TetoSalarial"] ."</td>";
-              echo "<td>
-                <a href='salvar-produtos.php?id=". $row["ProdutoID"] . "' class='btn btn-edit'>Editar</a>
-                <a href='./action/produtos.php?id=" . $row["ProdutoID"] . "&acao=excluir' class='btn btn-delete'>Excluir</a>
-              </td>";
-            echo "</tr>";
-            }
-            ?>
+        <?php
+                $sql = 'SELECT ProdutoID, p.Nome AS NomeProduto, c.Nome AS NomeCat, Preco FROM produtos AS p
+                INNER JOIN categorias AS c ON p.CategoriaID = c.CategoriaID
+                ORDER BY ProdutoID ASC;';
+
+                $return = mysqli_query($conexao, $sql);
+                
+                while($linha = mysqli_fetch_assoc($return)){
+                    echo '<tr id="'.$linha['ProdutoID'].'">
+            <td>'.$linha['ProdutoID'].'</td>
+            <td>'.$linha['NomeProduto'].'</td>
+            <td>'.$linha['NomeCat'].'</td>
+            <td>'.'R$ '.number_format($linha['Preco'], 2, ',', '.').'</td>
+            <td>
+              <a href="./salvar-produtos.php?id='.$linha['ProdutoID'].'" class="btn btn-edit">Editar</a>
+              <a href="./action/produtos.php?id='.$linha['ProdutoID'].'&acao=excluir" class="btn btn-delete">Excluir</a>
+            </td>
+          </tr>';
+                };
+                ?>   
         </tbody>
       </table>
     </div>
- 
-<?php
-  // include dos arquivox
+
+<?php 
+  // include dos arquivos
   include_once './include/footer.php';
   ?>
- 

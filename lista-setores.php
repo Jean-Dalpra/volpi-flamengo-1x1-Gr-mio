@@ -1,45 +1,51 @@
-<?php
-// include dos arquivox
+<?php 
+// include dos arquivos
 include_once './include/logado.php';
 include_once './include/conexao.php';
 include_once './include/header.php';
 ?>
-  <main>
- 
-    <div class="container">
-        <h1>Lista de Setores</h1>
-        <a href="./salvar-setores.php" class="btn btn-add">Incluir</a>
-       
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Andar</th>
-              <th>Cor</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-          <?php
-            $sql = "SELECT * FROM setor;";
-            $resultado = mysqli_query($conexao, $sql);
- 
-            while ($row = mysqli_fetch_assoc($resultado)) {
-           echo ' <tr>
-              <td>'. $row['SetorID'].'</td>
-              <td>'. $row['Nome'].' </td>
-              <td>'.  $row['Andar'].'</td>
-              <td>'.  $row['Cor'].'</td>
-              <td>
-              <a href="./action/salvar-setores.php?id='. $row['SetorID'].'" class="btn btn-edit">Editar</a>
 
-              <a href="./action/setores.php?id='.$row['SetorID'].'&acao=excluir" class="btn btn-delete">Excluir</a>
-              </td>
-            </tr>';
-            }
-            ?>
-          </tbody>
-        </table>
-      </div>
-  </main>
+<main>
+
+  <div class="container">
+      <h1>Lista de Produtos</h1>
+      <a href="./salvar-produtos.php" class="btn btn-add">Incluir</a> 
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+                $sql = 'SELECT ProdutoID, p.Nome AS NomeProduto, c.Nome AS NomeCat, Preco FROM produtos AS p
+                INNER JOIN categorias AS c ON p.CategoriaID = c.CategoriaID
+                ORDER BY ProdutoID ASC;';
+
+                $return = mysqli_query($conexao, $sql);
+                
+                while($linha = mysqli_fetch_assoc($return)){
+                    echo '<tr id="'.$linha['ProdutoID'].'">
+            <td>'.$linha['ProdutoID'].'</td>
+            <td>'.$linha['NomeProduto'].'</td>
+            <td>'.$linha['NomeCat'].'</td>
+            <td>'.'R$ '.number_format($linha['Preco'], 2, ',', '.').'</td>
+            <td>
+              <a href="./salvar-produtos.php?id='.$linha['ProdutoID'].'" class="btn btn-edit">Editar</a>
+              <a href="./action/produtos.php?id='.$linha['ProdutoID'].'&acao=excluir" class="btn btn-delete">Excluir</a>
+            </td>
+          </tr>';
+                };
+                ?>   
+        </tbody>
+      </table>
+    </div>
+
+<?php 
+  // include dos arquivos
+  include_once './include/footer.php';
+  ?>
