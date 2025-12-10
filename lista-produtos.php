@@ -1,13 +1,8 @@
 <?php 
-// include dos arquivox
+// include dos arquivos
 include_once './include/logado.php';
 include_once './include/conexao.php';
 include_once './include/header.php';
-
-$sql = 'SELECT p.ProdutoID, p.Nome, p.Preco AS Preco, c.Nome AS Categoria 
-        FROM produtos p 
-        INNER JOIN categorias c ON p.CategoriaID = c.CategoriaID';
-$resultado = mysqli_query($conexao, $sql);
 ?>
 
 <main>
@@ -26,27 +21,31 @@ $resultado = mysqli_query($conexao, $sql);
           </tr>
         </thead>
         <tbody>
-          
-            <?php
-            while ($row = mysqli_fetch_assoc($resultado)) {
-              echo '<tr>
-                    <td>'.$row['ProdutoID'].'</td>
-                    <td>'.$row['Nome'].'</td>
-                    <td>'.$row['Categoria'].'</td>
-                    <td>R$ '.$row['Preco'].'</td>
-                    <td>
-                      <a href="salvar-produtos.php?id='.$row['ProdutoID'].'" class="btn btn-edit">Editar</a>
-                      <a href="./action/produtos.php?acao=excluir&id='.$row['ProdutoID'].'" class="btn btn-delete">Excluir</a>
-                    </td>
-                  </tr>';
-            }
-            ?>
+        <?php
+                $sql = 'SELECT ProdutoID, p.Nome AS NomeProduto, c.Nome AS NomeCat, Preco FROM produtos AS p
+                INNER JOIN categorias AS c ON p.CategoriaID = c.CategoriaID
+                ORDER BY ProdutoID ASC;';
 
+                $return = mysqli_query($conexao, $sql);
+                
+                while($linha = mysqli_fetch_assoc($return)){
+                    echo '<tr id="'.$linha['ProdutoID'].'">
+            <td>'.$linha['ProdutoID'].'</td>
+            <td>'.$linha['NomeProduto'].'</td>
+            <td>'.$linha['NomeCat'].'</td>
+            <td>'.'R$ '.number_format($linha['Preco'], 2, ',', '.').'</td>
+            <td>
+              <a href="./salvar-produtos.php?id='.$linha['ProdutoID'].'" class="btn btn-edit">Editar</a>
+              <a href="./action/produtos.php?id='.$linha['ProdutoID'].'&acao=excluir" class="btn btn-delete">Excluir</a>
+            </td>
+          </tr>';
+                };
+                ?>   
         </tbody>
       </table>
     </div>
 
 <?php 
-  // include dos arquivox
+  // include dos arquivos
   include_once './include/footer.php';
   ?>
